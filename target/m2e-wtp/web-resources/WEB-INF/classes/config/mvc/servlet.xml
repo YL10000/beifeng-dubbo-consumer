@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	                    http://www.springframework.org/schema/beans/spring-beans.xsd
+	                    http://www.springframework.org/schema/context
+	                    http://www.springframework.org/schema/context/spring-context.xsd
+	                 	http://www.springframework.org/schema/mvc
+	                    http://www.springframework.org/schema/mvc/spring-mvc.xsd ">
+
+	<!-- jsp文件前后缀 -->
+	<bean
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="viewClass"
+			value="org.springframework.web.servlet.view.JstlView" />
+		<property name="prefix" value="/pages/" />
+		<property name="suffix" value=".jsp" />
+	</bean>
+	
+	<!-- 默认访问跳转到登录页面(即定义无需Controller的url<->view直接映射)-->  
+    <mvc:view-controller path="/" view-name="forward:/pages/system/login.jsp"/> 
+    <!-- <mvc:view-controller path="/" view-name="forward:/system/login"/>  -->
+	
+	<!-- 静态资源加载 -->
+	<mvc:resources mapping="/common/**" location="/common/" cache-period="2592000"/>
+	
+	<!-- 自动扫描组件 -->
+	<mvc:annotation-driven />
+	<context:component-scan base-package="com.ibeifeng"
+		use-default-filters="false">
+		<context:include-filter type="regex"
+			expression="com.ibeifeng.*" />
+	</context:component-scan>
+	
+	<!-- <bean id="multipartResolver"  
+            class="org.springframework.web.multipart.commons.CommonsMultipartResolver">  
+                    设置上传文件的最大尺寸为1G  
+                <property name="maxUploadSize">  
+                    <value>1073741824</value>  
+                </property>  
+    </bean> -->
+     
+</beans>
